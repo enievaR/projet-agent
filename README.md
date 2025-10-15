@@ -54,5 +54,7 @@ modulaire et robuste, conforme aux bonnes pratiques de programmation professionn
 
 ## Auteurs
 Projet réalisé par Meryem Mellagui, Gabriel Monczewski et Florian Mordohai dans le cadre du cours Programmation Professionnelle
+
 Encadré par Fabien Escourbiac et Philippe Roussille
+
 Année universitaire 2025
