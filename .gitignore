@@ -1,0 +1,61 @@
+# Compiled class files
+*.class
+
+# Compiled output directories
+/bin/
+/out/
+/build/
+/target/
+
+# IDE configuration files
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+*.swo
+*.bak
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Dependency or build tool files (if used)
+.gradle/
+.mvn/
+*.jar
+*.war
+
+# Documentation builds
+docs/generated/
+docs/diagrams/*.png
+
+# Ollama cache or temp data (if applicable)
+ollama_cache/
+ollama_models/
+
+# Test and coverage
+/test-output/
+coverage/
+*.cov
+*.coverage
+
+# Environment variables or configuration
+.env
+config/local.properties
+
+# Java heap dumps
+*.hprof
