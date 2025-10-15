@@ -26,11 +26,11 @@ modulaire et robuste, conforme aux bonnes pratiques de programmation professionn
 
 ## Organisation de l’équipe
 
-|   Nom	  |                 Rôle	                |                        Responsabilités principales                                   |
-|---------|-----------------------------------------|--------------------------------------------------------------------------------------|
-| [Nom 1] | Chef de projet / Développeur backend	| Gestion du dépôt GitHub, intégration avec l’API Ollama, gestion des requêtes         |
-| [Nom 2] | Architecte logiciel / Développeur agent	| Conception du moteur de narration, gestion des états du jeu et logique d’interaction |
-| [Nom 3] |	Développeur interface / Testeur	        | Développement de l’interface console, écriture des tests unitaires et documentation  |
+| Nom	               | Rôle	                                        | Responsabilités principales                                       |
+|--------------------|----------------------------------------------|-------------------------------------------------------------------|
+| Gabriel Monczewski | Chef de projet / Développeur / Testeur	      | Gestion du dépôt GitHub, Développement, test unitaires            |
+| Florian Mordohai   | Architecte logiciel / Développeur / Testeur	 | Conception architecture logicielle, Développement, test unitaires |
+| Meryem Mellagui    | 	Développeur / Testeur / Documentation	      | Développement, écriture des tests unitaires et documentation      |
 
 ## Bonnes pratiques appliquées
 
