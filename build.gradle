@@ -1,17 +1,39 @@
 plugins {
     id 'java'
+    id 'application'
 }
 group = 'org.example'
 version = '1.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(19)
+    }
+}
+
+application {
+    mainClass = 'app.App'
+}
 
 repositories {
     mavenCentral()  // Ajoute Maven Central si ce n'est pas déjà fait
 }
 
 dependencies {
+    // JSON parsing
+    implementation 'com.google.code.gson:gson:2.11.0'
+
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     implementation 'dev.langchain4j:langchain4j-open-ai:1.7.1'
     implementation 'dev.langchain4j:langchain4j:1.7.1'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+tasks.named('run') {
+    standardInput = System.in
 }
