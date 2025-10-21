@@ -1,6 +1,7 @@
 package agent;
 
 public class IntentAnalyzer {
+
     public enum IntentType { CONTINUE_STORY, CREATE_ENTITY, UNKNOWN }
 
     public IntentType analyzeIntent(String input) {
