@@ -5,10 +5,8 @@ public class IntentAnalyzer {
 
     public IntentType analyzeIntent(String input) {
         String s = input.toLowerCase();
-        if (s.contains("crée") || s.contains("créer") || s.contains("génère")) return IntentType.CREATE_ENTITY;
-        if (s.contains("attaque") || s.contains("explore") || s.contains("continue") || s.contains("raconte")) return IntentType.CONTINUE_STORY;
-        // fallback
+        if (s.contains("crée") || s.contains("génère")) return IntentType.CREATE_ENTITY;
+        if (s.contains("raconte") || s.contains("attaque") || s.contains("explore")) return IntentType.CONTINUE_STORY;
         return IntentType.UNKNOWN;
     }
 }
-

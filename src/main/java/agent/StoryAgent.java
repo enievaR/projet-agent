@@ -1,20 +1,27 @@
 package agent;
 
-import api.OllamaClient;
+import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.ollama.OllamaChatModel;
 
 public class StoryAgent {
-    private final OllamaClient client;
-    private final String model = "llama3"; // ou llama3
+    private final ChatLanguageModel model;
 
-    public StoryAgent(OllamaClient client) {
-        this.client = client;
+    public StoryAgent() {
+        this.model = OllamaChatModel.builder()
+                .baseUrl("http://localhost:11434")
+                .modelName("llama3") // ou "llama3"
+                .build();
     }
 
-    public String respond(String input) throws Exception {
-        String prompt = "Tu es un narrateur RPG. Répond de manière immersive au joueur.\nJoueur: " + input + "\nNarration:";
-        String raw = client.generate(model, prompt);
-        // si nécessaire, parser le JSON. Ici on return la chaîne brute.
-        return raw;
+    public String narrate(String input) {
+        String prompt = """
+                Tu es un narrateur de RPG médiéval fantastique.
+                Raconte la suite de l’aventure de façon immersive et cohérente.
+                Sois descriptif mais concis.
+
+                Joueur : %s
+                Narration :
+                """.formatted(input);
+        return model.generate(prompt);
     }
 }
-

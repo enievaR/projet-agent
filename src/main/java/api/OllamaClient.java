@@ -14,7 +14,7 @@ public class OllamaClient {
     private final Gson gson = new Gson();
 
     public OllamaClient(String baseUrl) {
-        this.baseUrl = baseUrl; // ex: "http://localhost:11434"
+        this.baseUrl = baseUrl;
     }
 
     public String generate(String model, String prompt) throws Exception {
@@ -23,7 +23,7 @@ public class OllamaClient {
         JsonObject body = new JsonObject();
         body.addProperty("model", model);
         body.addProperty("prompt", prompt);
-        body.addProperty("stream", false); // ⬅️ empêche Ollama d’envoyer mot par mot
+        body.addProperty("stream", false);
 
         HttpRequest req = HttpRequest.newBuilder()
                 .uri(URI.create(endpoint))
@@ -37,7 +37,6 @@ public class OllamaClient {
             throw new RuntimeException("Erreur Ollama : " + resp.statusCode() + "\n" + resp.body());
         }
 
-        // Le corps est un seul JSON, on extrait juste le champ "response"
         JsonObject result = gson.fromJson(resp.body(), JsonObject.class);
         return result.get("response").getAsString().trim();
     }

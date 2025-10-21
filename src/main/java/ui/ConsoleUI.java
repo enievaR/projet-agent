@@ -7,13 +7,13 @@ public class ConsoleUI {
     private final MasterAgent master = new MasterAgent();
 
     public void start() {
-        System.out.println("Bienvenue — agent RPG. Tape 'quit' pour sortir.");
+        System.out.println("Bienvnenue dans l'agent RPG ! (Tapez 'quit' pour quitter)");
 
         try (Scanner sc = new Scanner(System.in)) {
             while (true) {
                 System.out.print("> ");
                 if (!sc.hasNextLine()) {
-                    System.out.println("Entrée fermée (aucune saisie détectée). Fin du programme.");
+                    System.out.println("Entrée terminée. Au revoir !");
                     break;
                 }
                 String input = sc.nextLine();

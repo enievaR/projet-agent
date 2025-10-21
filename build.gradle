@@ -2,12 +2,13 @@ plugins {
     id 'java'
     id 'application'
 }
-group = 'org.example'
-version = '1.0-SNAPSHOT'
+
+group = 'com.rpgagent'
+version = '1.0.0'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(19)
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
@@ -16,24 +17,21 @@ application {
 }
 
 repositories {
-    mavenCentral()  // Ajoute Maven Central si ce n'est pas déjà fait
+    mavenCentral()
 }
 
 dependencies {
-    // JSON parsing
-    implementation 'com.google.code.gson:gson:2.11.0'
+    implementation 'dev.langchain4j:langchain4j-core:0.36.2'
+    implementation 'dev.langchain4j:langchain4j-ollama:0.36.2'
 
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    implementation 'dev.langchain4j:langchain4j-open-ai:1.7.1'
-    implementation 'dev.langchain4j:langchain4j:1.7.1'
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
 }
 
 tasks.named('run') {
     standardInput = System.in
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
 }

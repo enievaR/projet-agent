@@ -1,17 +1,36 @@
 package agent;
 
-import api.OllamaClient;
+import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.ollama.OllamaChatModel;
 
 public class EntityAgent {
-    private final OllamaClient client;
-    private final String model = "llama3";
+    private final ChatLanguageModel model;
 
-    public EntityAgent(OllamaClient client) {
-        this.client = client;
+    public EntityAgent() {
+        this.model = OllamaChatModel.builder()
+                .baseUrl("http://localhost:11434")
+                .modelName("llama3")
+                .build();
     }
 
-    public String respond(String input) throws Exception {
-        String prompt = "Génère une entité RPG (type, nom, stats, description) en JSON.\nRequête: " + input;
-        return client.generate(model, prompt);
+    public String generateEntity(String input) {
+        String prompt = """
+                Génère une entité RPG sous forme de JSON avec :
+                - type (monstre, arme, PNJ…)
+                - nom
+                - rareté
+                - description
+
+                Exemple :
+                {
+                  "type": "arme",
+                  "nom": "Épée de feu",
+                  "rareté": "rare",
+                  "description": "Forgée dans les volcans de Thalara."
+                }
+
+                Demande du joueur : %s
+                """.formatted(input);
+        return model.generate(prompt);
     }
 }
