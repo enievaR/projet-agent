@@ -8,8 +8,8 @@ public class EntityAgent {
 
     public EntityAgent() {
         this.model = OllamaChatModel.builder()
-                .baseUrl("http://localhost:11434")
-                .modelName("llama3")
+                .baseUrl(System.getenv("APP_URL"))
+                .modelName(System.getenv("APP_MODEL"))
                 .build();
     }
 

@@ -8,8 +8,8 @@ public class StoryAgent {
 
     public StoryAgent() {
         this.model = OllamaChatModel.builder()
-                .baseUrl("http://localhost:11434")
-                .modelName("llama3") // ou "llama3"
+                .baseUrl(System.getenv("APP_URL"))
+                .modelName(System.getenv("APP_MODEL")) // ou "llama3"
                 .build();
     }
 
