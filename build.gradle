@@ -3,6 +3,7 @@ plugins {
     id 'application'
     id("com.github.spotbugs") version "6.4.4"
     id 'checkstyle'
+    id 'jacoco'
 }
 
 group = 'com.rpgagent'
@@ -42,6 +43,7 @@ tasks.named('run') {
 
 tasks.named('test') {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
 }
 
 checkstyle {
@@ -68,5 +70,18 @@ tasks.spotbugsMain {
             outputLocation = file("$buildDir/reports/spotbugs/main/spotbugs.html")
             stylesheet = 'fancy-hist.xsl'
 
+    }
+}
+
+jacoco {
+    toolVersion = '0.8.7'
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        csv.required = false
+        html.outputLocation = layout.setBuildDirectory('reports/jacoco')
     }
 }
