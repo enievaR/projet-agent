@@ -7,7 +7,7 @@ public class MasterAgent {
     private final EntityAgent entityAgent = new EntityAgent();
 
     public String processInput(String input) {
-        IntentAnalyzer.IntentType type = intentAnalyzer.analyzeIntent(input);
+        IntentTypeEnum type = intentAnalyzer.analyzeIntent(input);
 
         return switch (type) {
             case CONTINUE_STORY -> storyAgent.narrate(input);
