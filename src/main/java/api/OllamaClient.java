@@ -6,7 +6,6 @@ import java.nio.charset.StandardCharsets;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import java.util.Map;
 
 public class OllamaClient {
     private final HttpClient client = HttpClient.newHttpClient();
