@@ -1,3 +1,9 @@
+/***
+ * OllamaClient.java
+ * Deprecated: use Longchain4j instead
+ * Author: Florian Mordohai with LLM assistance
+ */
+
 package api;
 
 import java.net.URI;
