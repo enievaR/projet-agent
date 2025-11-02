@@ -71,24 +71,19 @@ public class StoryAgent {
     // Constructor
     public StoryAgent() {
         ChatLanguageModel model = OllamaChatModel.builder()
-                .baseUrl("http://localhost:11434") // use in localhost
-                .modelName("llama3.1") // Updated to llama3.1 for tool use support
-                .temperature(0.7) // Moderate creativity agent have to use D&D lore tool.
+                .baseUrl(System.getenv("APP_URL"))
+                .modelName(System.getenv("APP_MODEL"))
+                .temperature(0.7)
                 .build();
 
 
-        /**
-         * Initializes the chat memory to retain the last 10 messages.
-         */
+        // Initializes the chat memory to retain the last 10 messages.
         this.chatMemory = MessageWindowChatMemory.withMaxMessages(10);
-        /**
-        * Initializes the DnDLoreTool for lore lookups.
-        */    
+
+        // Initializes the DnDLoreTool for lore lookups.
         DnDLoreTool loreTool = new DnDLoreTool();
 
-        /**
-         * Builds the StoryAssistant with the specified model, memory, and tools.
-         */
+        // Builds the StoryAssistant with the specified model, memory, and tools.
         this.assistant = AiServices.builder(StoryAssistant.class)
                 .chatLanguageModel(model)
                 .chatMemory(chatMemory)
