@@ -1,3 +1,12 @@
+/**
+ * EntityAgent.java
+ * 
+ * Agent responsible for generating RPG entities like monsters, weapons, or NPCs.
+ * Not in use yet, Made StoryAgent in priority.
+ * author: Florian Mordohai with LLM assistance
+ */
+
+
 package agent;
 
 import dev.langchain4j.model.chat.ChatLanguageModel;
