@@ -71,8 +71,8 @@ public class StoryAgent {
     // Constructor
     public StoryAgent() {
         ChatLanguageModel model = OllamaChatModel.builder()
-                .baseUrl(System.getenv("APP_URL"))
-                .modelName(System.getenv("APP_MODEL"))
+                .baseUrl(EnvVarUtils.getEnvVar("APP_URL"))
+                .modelName(EnvVarUtils.getEnvVar("APP_MODEL"))
                 .temperature(0.7)
                 .build();
 

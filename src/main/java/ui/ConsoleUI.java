@@ -1,13 +1,18 @@
-package ui;
-
 /**
  * ConsoleUI.java
  * User interface for the D&D narrator agent.
  * author: Florian Mordohai with LLM assistance
  */
+package ui;
+
 import agent.MasterAgent;
 import java.util.Scanner;
 
+/**
+ * Provides a console-based interface for interacting with the MasterAgent,
+ * allowing users to input actions and receive responses in a Dungeons & Dragons adventure.
+ *
+ */
 public class ConsoleUI {
     private final MasterAgent master = new MasterAgent(); // Principal agent
 
