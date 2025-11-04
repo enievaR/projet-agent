@@ -1,6 +1,5 @@
 /**
  * EntityAgent.java
- * 
  * Agent responsible for generating RPG entities like monsters, weapons, or NPCs.
  * Not in use yet, Made StoryAgent in priority.
  * author: Florian Mordohai with LLM assistance
@@ -16,6 +15,7 @@ import dev.langchain4j.model.ollama.OllamaChatModel;
  * The EntityAgent class is responsible for generating RPG entities such as
  * monsters, weapons, or NPCs in JSON format. It uses a ChatLanguageModel
  * to process input and generate the desired output.
+ * TODO : FINISH THIS CLASS AND REMOVE IT FROM THE EXCLUDE.XML FILE OF SPOTBUGS WHEN READY
  */
 public class EntityAgent {
     private final ChatLanguageModel model;
@@ -40,22 +40,22 @@ public class EntityAgent {
      */
     public String generateEntity(String input) {
         String prompt = """
-                Génère une entité RPG sous forme de JSON avec :
-                - type (monstre, arme, PNJ…)
-                - nom
-                - rareté
-                - description
-
-                Exemple :
-                {
-                  "type": "arme",
-                  "nom": "Épée de feu",
-                  "rareté": "rare",
-                  "description": "Forgée dans les volcans de Thalara."
-                }
-
-                Demande du joueur : %s
-                """.formatted(input);
+            Génère une entité RPG sous forme de JSON avec :%n
+            - type (monstre, arme, PNJ…)%n
+            - nom%n
+            - rareté%n
+            - description%n
+            %n
+            Exemple :%n
+            {%n
+              "type": "arme",%n
+              "nom": "Épée de feu",%n
+              "rareté": "rare",%n
+              "description": "Forgée dans les volcans de Thalara."%n
+            }%n
+            %n
+            Demande du joueur : %s
+            """.formatted(input);
         return model.generate(prompt);
     }
 }

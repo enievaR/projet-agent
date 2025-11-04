@@ -6,6 +6,8 @@
 package ui;
 
 import agent.MasterAgent;
+
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 /**
@@ -33,7 +35,7 @@ public class ConsoleUI {
         System.out.println("------------------------------------------\n");
 
         // User input loop
-        try (Scanner sc = new Scanner(System.in)) {
+        try (Scanner sc = new Scanner(System.in, StandardCharsets.UTF_8)) {
             while (true) {
                 System.out.print("Your action > ");
                 if (!sc.hasNextLine()) {

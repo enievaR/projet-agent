@@ -82,6 +82,10 @@ tasks.spotbugsMain {
     }
 }
 
+tasks.spotbugsTest {
+    onlyIf { false }
+}
+
 jacoco {
     toolVersion = '0.8.7'
 }

@@ -78,6 +78,8 @@ public class DnDLoreTool {
             
             return result;
 
+        } catch (RuntimeException e) {
+            throw e;
         } catch (Exception e) {
             /**
              * General exception handling gives the agent the ability to continue the story.
@@ -130,6 +132,8 @@ public class DnDLoreTool {
             /**
              * General exception handling gives the agent the ability to continue the story.
              */
+        } catch (RuntimeException e) {
+            throw e;
         } catch (Exception e) {
             return "Unable to retrieve info about spell '" + spellName + "'.";
         }
@@ -178,6 +182,8 @@ public class DnDLoreTool {
             /**
             * General exception handling gives the agent the ability to continue the story.
             */
+        } catch (RuntimeException e) {
+            throw e;
         } catch (Exception e) {
             return "Unable to retrieve info about item '" + itemName + "'.";
         }
