@@ -26,8 +26,8 @@ public class EntityAgent {
      */
     public EntityAgent() {
         this.model = OllamaChatModel.builder()
-                .baseUrl(System.getenv("APP_URL"))
-                .modelName(System.getenv("APP_MODEL"))
+                .baseUrl(EnvVarUtils.getEnvVar("APP_URL"))
+                .modelName(EnvVarUtils.getEnvVar("APP_MODEL"))
                 .build();
     }
 
