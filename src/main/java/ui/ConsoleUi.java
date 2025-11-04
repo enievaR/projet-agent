@@ -1,21 +1,15 @@
-/**
- * ConsoleUI.java
- * User interface for the D&D narrator agent.
- * author: Florian Mordohai with LLM assistance
- */
 package ui;
 
 import agent.MasterAgent;
-
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 /**
  * Provides a console-based interface for interacting with the MasterAgent,
  * allowing users to input actions and receive responses in a Dungeons & Dragons adventure.
- *
  */
-public class ConsoleUI {
+public class ConsoleUi {
+
     private final MasterAgent master = new MasterAgent(); // Principal agent
 
     /**
@@ -28,7 +22,8 @@ public class ConsoleUI {
         
         // Start the adventure
         System.out.println("The narrator prepares your adventure...\n");
-        String introduction = master.processInput("Start a Dungeons & Dragons adventure. Present the initial context and ask the player what they do."); //Initial prompt
+        String introduction = master.processInput("Start a Dungeons & Dragons adventure."
+                + " Present the initial context and ask the player what they do."); //Initial prompt
         System.out.println(introduction);
         System.out.println("\n------------------------------------------");
         System.out.println("Type your actions or 'quit' to exit");
@@ -49,7 +44,8 @@ public class ConsoleUI {
                 }
                 
                 if ("quit".equalsIgnoreCase(input)) {
-                    System.out.println("\nYour adventure ends here. See you soon, brave adventurer!");
+                    System.out.println("\nYour adventure ends here."
+                            + " See you soon, brave adventurer!");
                     break;
                 }
                 

@@ -40,20 +40,20 @@ public class EntityAgent {
      */
     public String generateEntity(String input) {
         String prompt = """
-            Génère une entité RPG sous forme de JSON avec :%n
-            - type (monstre, arme, PNJ…)%n
-            - nom%n
-            - rareté%n
-            - description%n
-            %n
-            Exemple :%n
-            {%n
-              "type": "arme",%n
-              "nom": "Épée de feu",%n
-              "rareté": "rare",%n
-              "description": "Forgée dans les volcans de Thalara."%n
-            }%n
-            %n
+            Génère une entité RPG sous forme de JSON avec :
+            - type (monstre, arme, PNJ…)
+            - nom
+            - rareté
+            - description
+            
+            Exemple :
+            {
+              "type": "arme",
+              "nom": "Épée de feu",
+              "rareté": "rare",
+              "description": "Forgée dans les volcans de Thalara."
+            }
+            
             Demande du joueur : %s
             """.formatted(input);
         return model.generate(prompt);

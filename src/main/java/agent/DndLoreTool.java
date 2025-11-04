@@ -1,23 +1,24 @@
+package agent;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.langchain4j.agent.tool.Tool;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import org.jetbrains.annotations.NotNull;
+
+
 /**
- * DnDLoreTool.java
+ * DndLoreTool.java
  * Tool for retrieving lore information from the D&D 5E API.
  * Provides methods to search for monsters, spells, and magic items.
  * Uses Java HttpClient for API requests and Jackson for JSON parsing.
  * Handles errors gracefully and returns formatted strings.
  * author: Meryem Mellagui & Florian Mordohai with LLM assistance
  */
-
-package agent;
-
-import dev.langchain4j.agent.tool.Tool;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-public class DnDLoreTool {
+public class DndLoreTool {
 
     /**
      * Base URL for the D&D 5E API
@@ -27,7 +28,10 @@ public class DnDLoreTool {
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
 
-    public DnDLoreTool() { // Constructor initializes HttpClient and ObjectMapper
+    /**
+     * Constructor initializes HttpClient and ObjectMapper.
+     */
+    public DndLoreTool() { // Constructor initializes HttpClient and ObjectMapper
         this.httpClient = HttpClient.newBuilder()
                 .followRedirects(HttpClient.Redirect.NORMAL)
                 .build();
@@ -37,8 +41,10 @@ public class DnDLoreTool {
 
     /**
      * Search for a D&D monster by name.
-     * @param monsterName
-     * @return
+     *
+     * @param monsterName The name of the monster to search for.
+     * @return A formatted string containing the monster's details,
+     *         or an error message if not found.
      */
     @Tool("Search for information about a D&D monster by name (ex: goblin, dragon, beholder)")
     public String searchMonster(String monsterName) {
@@ -55,13 +61,13 @@ public class DnDLoreTool {
                     .build();
             
 
-            /**
+            /*
              * Send the HTTP request and handle the response.
              */
             HttpResponse<String> response = httpClient.send(request, 
                     HttpResponse.BodyHandlers.ofString());
 
-            /**
+            /*
              * Error handling
              */
             if (response.statusCode() != 200) {
@@ -73,15 +79,13 @@ public class DnDLoreTool {
             if (!monster.has("name")) {
                 return "Monster '" + monsterName + "' not found.";
             }
-            
-            String result = formatMonsterDetails(monster);
-            
-            return result;
+
+            return formatMonsterDetails(monster);
 
         } catch (RuntimeException e) {
             throw e;
         } catch (Exception e) {
-            /**
+            /*
              * General exception handling gives the agent the ability to continue the story.
              */
             return "Unable to retrieve info about '" + monsterName + "'. Use your D&D creativity.";
@@ -90,13 +94,14 @@ public class DnDLoreTool {
 
     /**
      * Search for a D&D spell by name.
-     * @param spellName
-     * @return
+     *
+     * @param spellName The name of the spell to search for.
+     * @return A formatted string containing the spell's details, or an error message if not found.
      */
     @Tool("Search for a D&D spell by name (ex: fireball, magic-missile, cure-wounds)")
     public String searchSpell(String spellName) {
         try {
-        String cleanName = spellName.toLowerCase() // Normalize the spell name
+            String cleanName = spellName.toLowerCase() // Normalize the spell name
                     .trim()
                     .replaceAll("\\s+", "-"); 
             
@@ -112,7 +117,7 @@ public class DnDLoreTool {
                     HttpResponse.BodyHandlers.ofString());
             
 
-            /**
+            /*
              * Errors handling
              */
             if (response.statusCode() != 200) {
@@ -124,25 +129,24 @@ public class DnDLoreTool {
             if (!spell.has("name")) {
                 return "Spell '" + spellName + "' not found.";
             }
-            
-            String result = formatSpellDetails(spell);
-            
-            return result;
+            return formatSpellDetails(spell);
         
-            /**
-             * General exception handling gives the agent the ability to continue the story.
-             */
+
         } catch (RuntimeException e) {
             throw e;
         } catch (Exception e) {
+            /*
+             * General exception handling gives the agent the ability to continue the story.
+             */
             return "Unable to retrieve info about spell '" + spellName + "'.";
         }
     }
 
     /**
      * Search for a D&D magic item by name.
-     * @param itemName
-     * @return
+     *
+     * @param itemName The name of the magic item to search for.
+     * @return A formatted string containing the item's details, or an error message if not found.
      */
     @Tool("Search for a D&D magic item by name (ex: bag-of-holding, vorpal-sword)")
     public String searchMagicItem(String itemName) {
@@ -175,16 +179,15 @@ public class DnDLoreTool {
             if (!item.has("name")) {
                 return "Magic item '" + itemName + "' not found.";
             }
-            
-            String result = formatMagicItemDetails(item);
-            
-            return result;
-            /**
-            * General exception handling gives the agent the ability to continue the story.
-            */
+
+            return formatMagicItemDetails(item);
+
         } catch (RuntimeException e) {
             throw e;
         } catch (Exception e) {
+            /*
+             * General exception handling gives the agent the ability to continue the story.
+             */
             return "Unable to retrieve info about item '" + itemName + "'.";
         }
     }
@@ -192,12 +195,13 @@ public class DnDLoreTool {
 
     /**
      * Format monster details into a readable string.
-     * @param monster
-     * @return
+     *
+     * @param monster The JSON node containing monster details.
+     * @return A formatted string with the monster's details.
      */
     private String formatMonsterDetails(JsonNode monster) {
 
-        /**
+        /*
          * Build the details string
          */
         StringBuilder details = new StringBuilder();
@@ -210,12 +214,16 @@ public class DnDLoreTool {
             details.append("Alignment: ").append(monster.get("alignment").asText()).append("\n");
         }
         // Required fields
-        details.append("Challenge Rating: ").append(monster.get("challenge_rating").asText()).append("\n");
+        details.append("Challenge Rating: ").append(monster.get("challenge_rating")
+                .asText()).append("\n");
         details.append("Hit Points: ").append(monster.get("hit_points").asInt()).append("\n");
 
         // Armor class might be an array
-        if (monster.has("armor_class") && monster.get("armor_class").isArray() && monster.get("armor_class").size() > 0) {
-            details.append("Armor Class: ").append(monster.get("armor_class").get(0).get("value").asInt()).append("\n");
+        if (monster.has("armor_class") && monster.get("armor_class").isArray()
+                && !monster.get("armor_class").isEmpty()
+        ) {
+            details.append("Armor Class: ").append(monster.get("armor_class").get(0).get("value")
+                    .asInt()).append("\n");
         }
         
         return details.toString();
@@ -223,11 +231,12 @@ public class DnDLoreTool {
 
     /**
      * Format spell details into a readable string.
-     * @param spell
-     * @return
+     *
+     * @param spell The JSON node containing spell details.
+     * @return A formatted string with the spell's details.
      */
     private String formatSpellDetails(JsonNode spell) {
-        /**
+        /*
          * Build the details string
          */
         StringBuilder details = new StringBuilder();
@@ -238,22 +247,17 @@ public class DnDLoreTool {
         details.append("Range: ").append(spell.get("range").asText()).append("\n");
 
         // Optional fields
-        if (spell.has("desc") && spell.get("desc").isArray() && spell.get("desc").size() > 0) {
-            details.append("Description: ");
-            String desc = spell.get("desc").get(0).asText();
-            details.append(desc.substring(0, Math.min(200, desc.length()))).append("...\n");
-        }
-        
-        return details.toString();
+        return getOptionalFields(spell, details);
     }
 
     /**
      * Format magic item details into a readable string.
-     * @param item
-     * @return
+     *
+     * @param item The JSON node containing magic item details.
+     * @return A formatted string with the item's details.
      */
     private String formatMagicItemDetails(JsonNode item) {
-        /**
+        /*
          * Build the details string
          */
         StringBuilder details = new StringBuilder();
@@ -261,7 +265,8 @@ public class DnDLoreTool {
 
         // Optional fields
         if (item.has("equipment_category")) {
-            details.append("Type: ").append(item.get("equipment_category").get("name").asText()).append("\n");
+            details.append("Type: ").append(item.get("equipment_category").get("name")
+                    .asText()).append("\n");
         }
 
         // Optional fields
@@ -269,12 +274,17 @@ public class DnDLoreTool {
             details.append("Rarity: ").append(item.get("rarity").get("name").asText()).append("\n");
         }
         // Description
-        if (item.has("desc") && item.get("desc").isArray() && item.get("desc").size() > 0) {
+        return getOptionalFields(item, details);
+    }
+
+    @NotNull
+    private String getOptionalFields(JsonNode spell, StringBuilder details) {
+        if (spell.has("desc") && spell.get("desc").isArray() && !spell.get("desc").isEmpty()) {
             details.append("Description: ");
-            String desc = item.get("desc").get(0).asText();
-            details.append(desc.substring(0, Math.min(200, desc.length()))).append("...\n");
+            String desc = spell.get("desc").get(0).asText();
+            details.append(desc, 0, Math.min(200, desc.length())).append("...\n");
         }
-        
+
         return details.toString();
     }
 }

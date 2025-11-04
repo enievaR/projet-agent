@@ -1,14 +1,5 @@
 package agent;
 
-
-/**
- * StoryAgent.java
- * Agent responsible for narrating a Dungeons & Dragons adventure.
- * Uses Langchain4j with Ollama LLM and integrates DnDLoreTool for lore lookups.
- * Implements strict narration rules and styles for immersive storytelling.
- * Filters out any structured responses to maintain pure narrative format.
- * Author: Meryem Mellagui & Florian Mordohai with LLM assistance
- */
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatLanguageModel;
@@ -18,18 +9,25 @@ import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 
 /**
- * StoryAgent class that narrates a Dungeons & Dragons adventure.
- * It uses a ChatLanguageModel with Ollama and integrates the DnDLoreTool for lore lookups.
- * The agent follows strict narration rules to ensure immersive storytelling.
- *
+ * StoryAgent.java
+ * Agent responsible for narrating a Dungeons & Dragons adventure.
+ * Uses Langchain4j with Ollama LLM and integrates DndLoreTool for lore lookups.
+ * Implements strict narration rules and styles for immersive storytelling.
+ * Filters out any structured responses to maintain pure narrative format.
  */
 public class StoryAgent {
     private final StoryAssistant assistant;
     private final ChatMemory chatMemory;
+
+    /**
+     * Interface defining the behavior of the StoryAssistant.
+     * The assistant narrates the story based on user input while adhering to strict rules.
+     */
     interface StoryAssistant {
 
         /**
          * Narrates the story based on user input.
+         *
          * @param userInput The input from the user/player.
          * @return The narrative response.
          */
@@ -37,7 +35,7 @@ public class StoryAgent {
                 You are a medieval fantasy RPG narrator based on the Dungeons & Dragons universe.
 
                 === ABSOLUTE RULES ===
-                1. You must ALWAYS respond in pure NARRATIVE TEXT, NEVER in JSON or structured format
+                1. You must ALWAYS answer in pure NARRATIVE TEXT, NEVER in JSON or structured format
                 2. NEVER respond with function calls like {"name": "...", "parameters": ...}
                 3. Start DIRECTLY with the story
 
@@ -68,7 +66,10 @@ public class StoryAgent {
         String narrate(@UserMessage String userInput);
     }
 
-    // Constructor
+    /**
+     * Constructor for the StoryAgent class.
+     * Initializes the chat memory, language model, and tools required for the assistant.
+     */
     public StoryAgent() {
         ChatLanguageModel model = OllamaChatModel.builder()
                 .baseUrl(EnvVarUtils.getEnvVar("APP_URL"))
@@ -80,8 +81,8 @@ public class StoryAgent {
         // Initializes the chat memory to retain the last 10 messages.
         this.chatMemory = MessageWindowChatMemory.withMaxMessages(10);
 
-        // Initializes the DnDLoreTool for lore lookups.
-        DnDLoreTool loreTool = new DnDLoreTool();
+        // Initializes the DndLoreTool for lore lookups.
+        DndLoreTool loreTool = new DndLoreTool();
 
         // Builds the StoryAssistant with the specified model, memory, and tools.
         this.assistant = AiServices.builder(StoryAssistant.class)
@@ -93,15 +94,18 @@ public class StoryAgent {
 
     /**
      * Narrates the story based on user input.
-     * @param input User input to narrate the story.
-     * @return
+     *
+     * @param input The input provided by the user/player.
+     * @return The narrative response as a string.
+     *         If the response contains JSON or structured data, it is filtered out.
      */
     public String narrate(String input) {
         String response = assistant.narrate(input);
         // Safety filter: if response contains JSON, clean it
-        if (response.contains("{\"name\"") || response.contains("\"parameters\"")) { // crude check for structured response
+        if (response.contains("{\"name\"") || response.contains("\"parameters\"")) {
             System.out.println("[WARNING] Response blocked by filter");
-            return "The narrator hesitates for a moment... Rephrase your request so I can better guide you in the adventure.";
+            return "The narrator hesitates for a moment... "
+                    + "Rephrase your request so I can better guide you in the adventure.";
         }
 
         return response;

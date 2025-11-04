@@ -1,12 +1,12 @@
+package agent;
+
+
 /**
  * MasterAgent class that coordinates between different specialized agents
  * to process user inputs and generate appropriate responses.
  * Delegates tasks to StoryAgent for storytelling and EntityAgent for entity generation.
  * Author: Florian Mordohai with LLM assistance
  */
-
-package agent;
-
 public class MasterAgent {
 
     private final IntentAnalyzer intentAnalyzer = new IntentAnalyzer(); // Analyze user intent

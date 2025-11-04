@@ -24,8 +24,8 @@ public class IntentAnalyzer {
             return IntentTypeEnum.CREATE_ENTITY;
         }
         
-        if (s.contains("tell") || s.contains("attack") || s.contains("explore") || // Keywords for story continuation
-            s.contains("start") || s.contains("begin")) {
+        if (s.contains("tell") || s.contains("attack") || s.contains("explore")
+                || s.contains("start") || s.contains("begin")) {
             return IntentTypeEnum.CONTINUE_STORY;
         }
         
