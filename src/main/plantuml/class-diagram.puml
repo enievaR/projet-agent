@@ -1,0 +1,84 @@
+@startuml
+
+package "app" {
+    class App {
+        + {static} main(args: String[]): void
+    }
+}
+
+package "ui" {
+    class ConsoleUI {
+        - master: MasterAgent
+        + start(): void
+    }
+}
+
+package "agent" {
+    class MasterAgent {
+        - intentAnalyzer: IntentAnalyzer
+        - storyAgent: StoryAgent
+        - entityAgent: EntityAgent
+        + processInput(input: String): String
+    }
+
+    class IntentAnalyzer {
+        + analyzeIntent(input: String): IntentTypeEnum
+    }
+
+    enum IntentTypeEnum {
+        CONTINUE_STORY
+        CREATE_ENTITY
+        UNKNOWN
+    }
+
+    class StoryAgent {
+        - assistant: StoryAssistant
+        - chatMemory: ChatMemory
+        + narrate(input: String): String
+    }
+
+    interface StoryAssistant {
+        + narrate(userInput: String): String
+    }
+
+    class EntityAgent {
+        - model: ChatLanguageModel
+        + generateEntity(input: String): String
+    }
+
+    class DnDLoreTool {
+        - {static} API_BASE: String
+        - httpClient: HttpClient
+        - objectMapper: ObjectMapper
+        + searchMonster(monsterName: String): String
+        + searchSpell(spellName: String): String
+        + searchMagicItem(itemName: String): String
+        - formatMonsterDetails(monster: JsonNode): String
+        - formatSpellDetails(spell: JsonNode): String
+        - formatMagicItemDetails(item: JsonNode): String
+    }
+}
+
+' Relations
+App --> ConsoleUI : utilise
+ConsoleUI --> MasterAgent : délègue à
+
+MasterAgent --> IntentAnalyzer : analyse avec
+MasterAgent --> StoryAgent : narration
+MasterAgent --> EntityAgent : génération
+
+IntentAnalyzer --> IntentTypeEnum : retourne
+
+StoryAgent --> StoryAssistant : utilise
+StoryAgent ..> DnDLoreTool : intègre comme tool
+
+StoryAssistant ..> DnDLoreTool : peut appeler
+
+' Dépendances externes
+StoryAgent ..> "ChatMemory" : utilise
+StoryAgent ..> "ChatLanguageModel" : utilise
+EntityAgent ..> "ChatLanguageModel" : utilise
+DnDLoreTool ..> "HttpClient" : utilise
+DnDLoreTool ..> "ObjectMapper" : utilise
+
+@enduml

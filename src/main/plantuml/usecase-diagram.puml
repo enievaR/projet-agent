@@ -1,0 +1,53 @@
+@startuml
+
+left to right direction
+
+actor Joueur as user
+actor "API D&D 5E" as api
+
+rectangle "Système Narrateur D&D" {
+    usecase "Démarrer l'aventure" as UC1
+    usecase "Effectuer une action" as UC2
+    usecase "Continuer l'histoire" as UC3
+    usecase "Créer une entité" as UC4
+    usecase "Analyser l'intention" as UC5
+    usecase "Rechercher un monstre" as UC6
+    usecase "Rechercher un sort" as UC7
+    usecase "Rechercher un objet magique" as UC8
+    usecase "Mémoriser le contexte" as UC9
+    usecase "Quitter l'aventure" as UC10
+}
+
+' Relations Joueur
+user --> UC1
+user --> UC2
+user --> UC10
+
+' Relations entre cas d'utilisation
+UC2 ..> UC5 : <<include>>
+UC5 ..> UC3 : <<extend>>\n[intention: narration]
+UC5 ..> UC4 : <<extend>>\n[intention: création]
+
+UC3 ..> UC9 : <<include>>
+UC3 ..> UC6 : <<extend>>\n[mention monstre]
+UC3 ..> UC7 : <<extend>>\n[mention sort]
+UC3 ..> UC8 : <<extend>>\n[mention objet]
+
+' Relations avec l'API
+UC6 --> api
+UC7 --> api
+UC8 --> api
+
+note right of UC3
+  Le narrateur génère 
+  une réponse immersive 
+  en prose
+end note
+
+note right of UC9
+  Conserve les 10 
+  derniers messages 
+  pour le contexte
+end note
+
+@enduml

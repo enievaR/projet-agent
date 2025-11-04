@@ -12,7 +12,45 @@ modulaire et robuste, conforme aux bonnes pratiques de programmation professionn
 
 - Génération et narration dynamique d’histoires interactives.
 - Compréhension et gestion des actions de l’utilisateur en langage naturel.
-- Interaction avec un modèle Ollama local (llama3).
+- Interaction avec un modèle Ollama local (llama3.1).
+
+
+## Instalation et exécution
+1. Cloner le dépôt GitHub :
+   ```bash
+   git clone <URL_DU_DEPOT>
+   ```
+2. Naviguer dans le répertoire du projet :
+   ```bash
+    cd projet-agent
+   ```
+3. Lancer Ollama localement avec le modèle llama3.1 :
+   ```bash
+   ollama serve
+   ```
+4. Mettre à jour les variables d'environnement
+   ```bash
+   export APP_URL=http://localhost:11434/
+   export APP_MODEL=llama3.1
+   ```
+
+5. Construire le projet avec Gradle :
+   ```bash
+   ./gradlew build
+   ```
+6. Exécuter l'application :
+   ```bash
+   ./gradlew run
+   ```
+
+## Utilisation de l’application
+Lancez l'application et l'agent commencera à narrer une histoire. Vous pouvez interagir en entrant des commandes ou des actions en langage naturel. Par exemple :
+- "I want to explore the dark forest."
+- "Talk to the mysterious stranger." 
+
+L'agent répondra en fonction de vos choix, adaptant l'histoire en conséquence.  
+**L'agent fonctionne uniquement en anglais pour des raisons de compatibilité avec l'API donjon et dragon utiliser par l'agent.**
+
 
 ## Technologies utilisées
 
@@ -22,15 +60,16 @@ modulaire et robuste, conforme aux bonnes pratiques de programmation professionn
   - ```HttpClient``` pour les requêtes HTTP
   - ```Gson``` / ```Jackson``` pour la sérialisation JSON
   - ```JUnit ```/ ```Mockito``` pour les tests unitaires
-- Outils collaboratifs : GitHub 
+  - ```Langchain4j``` pour l’intégration avec Ollama
+  - ```Outils collaboratifs``` : GitHub
 
 ## Organisation de l’équipe
 
-| Nom	               | Rôle	                                        | Responsabilités principales                                       |
-|--------------------|----------------------------------------------|-------------------------------------------------------------------|
-| Gabriel Monczewski | Chef de projet / Développeur / Testeur	      | Gestion du dépôt GitHub, Développement, test unitaires            |
-| Florian Mordohai   | Architecte logiciel / Développeur / Testeur	 | Conception architecture logicielle, Développement, test unitaires |
-| Meryem Mellagui    | 	Développeur / Testeur / Documentation	      | Développement, écriture des tests unitaires et documentation      |
+| Nom	               | Rôle	                                               | Responsabilités principales                                       |
+|--------------------|-----------------------------------------------------|-------------------------------------------------------------------|
+| Gabriel Monczewski | Chef de projet / Développeur / Testeur	             | Gestion du dépôt GitHub, Développement, test unitaires            |
+| Florian Mordohai   | Architecte logiciel / Développeur / Documentation	 | Conception architecture logicielle, Développement, documentation  |
+| Meryem Mellagui    | 	Développeur / Présentation                         | Développement d'outils et agents                                  |
 
 ## Bonnes pratiques appliquées
 
@@ -41,12 +80,11 @@ modulaire et robuste, conforme aux bonnes pratiques de programmation professionn
   - Commits fréquents et explicites (Utilisation de verbe à l'impératif, etc...)
   - Branches dédiées par fonctionnalité
   - Pull requests et code review avant fusion
-- Tests unitaires : couverture des composants critiques (moteur de narration, API Ollama).
+- Tests unitaires : couverture des composants critiques (moteur de narration).
 - Conventions Java : respect du style, nommage clair, indentation cohérente.
 
 ## Limites actuelles et pistes d’amélioration
 
-- Absence de mémoire persistante entre sessions (à implémenter via fichiers JSON ou base de données).
 - Gestion limitée des événements complexes ou combats interactifs.
 - Potentiel futur :
   - Interface graphique (JavaFX ou web).

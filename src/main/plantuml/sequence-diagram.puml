@@ -1,0 +1,59 @@
+@startuml
+
+actor Joueur
+participant ConsoleUI
+participant MasterAgent
+participant IntentAnalyzer
+participant StoryAgent
+participant StoryAssistant
+participant DnDLoreTool
+participant "API D&D" as API
+
+Joueur -> ConsoleUI: Saisit "I attack the goblin"
+activate ConsoleUI
+
+ConsoleUI -> MasterAgent: processInput("I attack the goblin")
+activate MasterAgent
+
+MasterAgent -> IntentAnalyzer: analyzeIntent("I attack the goblin")
+activate IntentAnalyzer
+IntentAnalyzer --> MasterAgent: CONTINUE_STORY
+deactivate IntentAnalyzer
+
+MasterAgent -> StoryAgent: narrate("I attack the goblin")
+activate StoryAgent
+
+StoryAgent -> StoryAssistant: narrate("I attack the goblin")
+activate StoryAssistant
+
+note right of StoryAssistant
+  L'assistant détecte qu'il doit
+  chercher des infos sur "goblin"
+end note
+
+StoryAssistant -> DnDLoreTool: searchMonster("goblin")
+activate DnDLoreTool
+
+DnDLoreTool -> API: GET /api/2014/monsters/goblin
+activate API
+API --> DnDLoreTool: JSON monster data
+deactivate API
+
+DnDLoreTool -> DnDLoreTool: formatMonsterDetails(monster)
+DnDLoreTool --> StoryAssistant: "D&D MONSTER: Goblin\nType: humanoid..."
+deactivate DnDLoreTool
+
+StoryAssistant --> StoryAgent: "You swing your sword at the goblin..."
+deactivate StoryAssistant
+
+StoryAgent -> StoryAgent: Filtre la réponse (vérifie JSON)
+StoryAgent --> MasterAgent: Récit narratif
+deactivate StoryAgent
+
+MasterAgent --> ConsoleUI: Récit narratif
+deactivate MasterAgent
+
+ConsoleUI --> Joueur: Affiche le récit
+deactivate ConsoleUI
+
+@enduml

@@ -1,6 +1,9 @@
 plugins {
     id 'java'
     id 'application'
+    id("com.github.spotbugs") version "6.4.4"
+    id 'checkstyle'
+    id 'jacoco'
 }
 
 group = 'com.rpgagent'
@@ -23,15 +26,75 @@ repositories {
 dependencies {
     implementation 'dev.langchain4j:langchain4j-core:0.36.2'
     implementation 'dev.langchain4j:langchain4j-ollama:0.36.2'
+    spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.14.0'
+    spotbugs 'com.github.spotbugs:spotbugs:4.9.4'
+    implementation 'dev.langchain4j:langchain4j:0.36.2'
+    
+    // Pour le parsing JSON
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.1'
 
+    testImplementation("org.junit-pioneer:junit-pioneer:1.9.1")
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
+    testImplementation 'org.mockito:mockito-core:5.5.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.5.0'
+
 }
 
+sourceSets {
+    main {
+        java.srcDirs = ['src/main/java']
+    }
+}
 tasks.named('run') {
     standardInput = System.in
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+checkstyle {
+    toolVersion "10.3.3"
+    configFile = rootProject.file('checkstyle/checkstyle.xml')
+}
+
+checkstyleMain {
+    configFile = rootProject.file('checkstyle/checkstyle.xml')
+}
+
+checkstyleTest {
+    configFile = rootProject.file('checkstyle/checkstyle.xml')
+}
+
+spotbugs {
+    ignoreFailures = false
+    excludeFilter = rootProject.file('spotbugs/exclude.xml')
+}
+
+tasks.spotbugsMain {
+    reports.create('html') {
+            required = true
+            outputLocation = file("$buildDir/reports/spotbugs/main/spotbugs.html")
+            stylesheet = 'fancy-hist.xsl'
+
+    }
+}
+
+tasks.spotbugsTest {
+    onlyIf { false }
+}
+
+jacoco {
+    toolVersion = '0.8.7'
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        csv.required = false
+        html.outputLocation = layout.setBuildDirectory('reports/jacoco')
+    }
 }
